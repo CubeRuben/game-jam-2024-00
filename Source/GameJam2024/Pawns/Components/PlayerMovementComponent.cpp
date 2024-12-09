@@ -32,7 +32,8 @@ void UPlayerMovementComponent::HandleInput(float DeltaTime)
 
 	movementComponent->SetHandbrakeInput(playerInput.bHandbrake);
 
-	movementComponent->SetThrottleInput((float)playerInput.bMoveForward - (float)playerInput.bMoveBack);
+	movementComponent->SetThrottleInput((float)playerInput.bMoveForward);
+	movementComponent->SetBrakeInput((float)playerInput.bMoveBack);
 	movementComponent->SetSteeringInput((float)playerInput.bMoveRight - (float)playerInput.bMoveLeft);
 
 	const float sens = 1.0f;
