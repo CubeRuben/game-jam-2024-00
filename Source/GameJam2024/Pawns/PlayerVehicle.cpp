@@ -1,6 +1,7 @@
 #include "PlayerVehicle.h"
 
 #include "Components/PlayerMovementComponent.h"
+#include "Components/PlayerTaskComponent.h"
 
 #include <Camera/CameraComponent.h>
 #include <GameFramework/SpringArmComponent.h>
@@ -17,6 +18,7 @@ APlayerVehicle::APlayerVehicle()
 	PlayerCameraComponent->SetupAttachment(SpringArmComponent);
 
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("Player Movement Component"));
+	PlayerTaskComponent = CreateDefaultSubobject<UPlayerTaskComponent>(TEXT("Player Task Component"));
 }
 
 void APlayerVehicle::Tick(float DeltaTime)

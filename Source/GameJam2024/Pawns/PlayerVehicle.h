@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UPlayerMovementComponent* PlayerMovementComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UPlayerTaskComponent* PlayerTaskComponent;
+
 	FPlayerInput PlayerInput;
 
 public:
@@ -47,6 +50,9 @@ public:
 	FPlayerInput& GetPlayerInput() { return PlayerInput; }
 
 	class USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
+
+	class UPlayerMovementComponent* GetPlayerMovementComponent() const { return PlayerMovementComponent; }
+	class UPlayerTaskComponent* GetPlayerTaskComponent() const { return PlayerTaskComponent; }
 
 	virtual void Tick(float DeltaTime) override;
 
