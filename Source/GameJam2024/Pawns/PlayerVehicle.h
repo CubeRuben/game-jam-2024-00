@@ -35,9 +35,6 @@ protected:
 	class UCameraComponent* PlayerCameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class USpringArmComponent* SpringArmComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UPlayerMovementComponent* PlayerMovementComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -49,7 +46,7 @@ public:
 
 	FPlayerInput& GetPlayerInput() { return PlayerInput; }
 
-	class USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
+	class UCameraComponent* GetCameraComponent() const { return PlayerCameraComponent; }
 
 	class UPlayerMovementComponent* GetPlayerMovementComponent() const { return PlayerMovementComponent; }
 	class UPlayerTaskComponent* GetPlayerTaskComponent() const { return PlayerTaskComponent; }

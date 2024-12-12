@@ -18,15 +18,6 @@ protected:
 	class APlayerVehicle* PlayerPawn;
 
 	UPROPERTY(EditAnywhere)
-	float MinTargetArmLength;
-
-	UPROPERTY(EditAnywhere)
-	float MaxTargetArmLength;
-	
-	UPROPERTY(EditAnywhere)
-	float StepArmLength;
-
-	UPROPERTY(EditAnywhere)
 	float TrailOffset;
 
 	virtual void BeginPlay() override;
