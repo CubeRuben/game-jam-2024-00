@@ -2,6 +2,7 @@
 
 #include "Components/PlayerMovementComponent.h"
 #include "Components/PlayerTaskComponent.h"
+#include "Components/PlayerHealthComponent.h"
 
 #include <Camera/CameraComponent.h>
 
@@ -12,6 +13,9 @@ APlayerVehicle::APlayerVehicle()
 
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("Player Movement Component"));
 	PlayerTaskComponent = CreateDefaultSubobject<UPlayerTaskComponent>(TEXT("Player Task Component"));
+	PlayerHealthComponent = CreateDefaultSubobject<UPlayerHealthComponent>(TEXT("Player Health Component"));
+
+	GetMesh()->BodyInstance.bNotifyRigidBodyCollision = true;
 }
 
 void APlayerVehicle::Tick(float DeltaTime)

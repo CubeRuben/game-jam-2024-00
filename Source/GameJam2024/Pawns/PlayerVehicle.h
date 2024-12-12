@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UPlayerTaskComponent* PlayerTaskComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UPlayerHealthComponent* PlayerHealthComponent;
+
 	FPlayerInput PlayerInput;
 
 public:
