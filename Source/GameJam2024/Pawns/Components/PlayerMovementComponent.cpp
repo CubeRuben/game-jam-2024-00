@@ -1,6 +1,7 @@
 #include "PlayerMovementComponent.h"
 
 #include "../PlayerVehicle.h"
+#include "../../Actors/SnowTrails.h"
 
 #include <GameFramework/SpringArmComponent.h>
 #include <ChaosVehicleMovementComponent.h>
@@ -56,5 +57,12 @@ void UPlayerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	HandleInput(DeltaTime);
+
+	ASnowTrails* const snowTrails = ASnowTrails::GetInstance();
+	
+	if (!snowTrails)
+		return;
+
+	snowTrails->AddSnowTrail(PlayerPawn->GetActorLocation() + FVector(0.0f, 0.0f, TrailOffset), PlayerPawn->GetActorRotation().Yaw);
 }
 

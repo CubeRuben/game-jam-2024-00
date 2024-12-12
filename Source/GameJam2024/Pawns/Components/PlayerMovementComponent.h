@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float StepArmLength;
 
+	UPROPERTY(EditAnywhere)
+	float TrailOffset;
+
 	virtual void BeginPlay() override;
 
 	void HandleInput(float DeltaTime);
