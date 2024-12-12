@@ -1,17 +1,14 @@
 #include "PlayerMovementComponent.h"
 
 #include "../PlayerVehicle.h"
+#include "../../Actors/SnowTrails.h"
 
-#include <GameFramework/SpringArmComponent.h>
+#include <Camera/CameraComponent.h>
 #include <ChaosVehicleMovementComponent.h>
 
 UPlayerMovementComponent::UPlayerMovementComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	MinTargetArmLength = 250.f;
-	MaxTargetArmLength = 750.f;
-	StepArmLength = 25.0f;
 }
 
 void UPlayerMovementComponent::BeginPlay()
@@ -37,18 +34,13 @@ void UPlayerMovementComponent::HandleInput(float DeltaTime)
 	movementComponent->SetSteeringInput((float)playerInput.bMoveRight - (float)playerInput.bMoveLeft);
 
 	const float sens = 1.0f;
-	
-	USpringArmComponent* const springArmComponent = PlayerPawn->GetSpringArmComponent();
 
-	//springArmComponent->AddRelativeRotation(FRotator(0.0f, , 0.0f));
+	UCameraComponent* cameraComponent = PlayerPawn->GetCameraComponent();
 
-	FRotator rotation = springArmComponent->GetRelativeRotation();
+	FRotator rotation = cameraComponent->GetRelativeRotation();
 	rotation.Yaw += playerInput.MouseX * sens;
-	rotation.Pitch = FMath::Clamp(playerInput.MouseY * sens + rotation.Pitch, -70.0f, 10.0f);
-	springArmComponent->SetRelativeRotation(rotation);
-
-	springArmComponent->TargetArmLength = FMath::Clamp(springArmComponent->TargetArmLength - StepArmLength * playerInput.MouseScroll, MinTargetArmLength, MaxTargetArmLength);
-
+	rotation.Pitch = FMath::Clamp(playerInput.MouseY * sens + rotation.Pitch, -50.0f, 50.0f);
+	cameraComponent->SetRelativeRotation(rotation);
 }
 
 void UPlayerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -56,5 +48,12 @@ void UPlayerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	HandleInput(DeltaTime);
+
+	ASnowTrails* const snowTrails = ASnowTrails::GetInstance();
+	
+	if (!snowTrails)
+		return;
+
+	snowTrails->AddSnowTrail(PlayerPawn->GetActorLocation() + FVector(0.0f, 0.0f, TrailOffset), PlayerPawn->GetActorRotation().Yaw);
 }
 

@@ -4,18 +4,11 @@
 #include "Components/PlayerTaskComponent.h"
 
 #include <Camera/CameraComponent.h>
-#include <GameFramework/SpringArmComponent.h>
 
 APlayerVehicle::APlayerVehicle()
 {
-	
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm Component"));
-	SpringArmComponent->TargetArmLength = 250.0f;
-	SpringArmComponent->SetRelativeRotation(FRotator(-25.0f, 0.0f, 0.0f));
-	SpringArmComponent->SetupAttachment(GetMesh());
-	
 	PlayerCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera Component"));
-	PlayerCameraComponent->SetupAttachment(SpringArmComponent);
+	PlayerCameraComponent->SetupAttachment(GetMesh());
 
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("Player Movement Component"));
 	PlayerTaskComponent = CreateDefaultSubobject<UPlayerTaskComponent>(TEXT("Player Task Component"));
