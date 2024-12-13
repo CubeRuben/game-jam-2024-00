@@ -8,7 +8,13 @@
 UDELEGATE(BlueprintAuthorityOnly)
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTaskAssignDelegate, class UTaskDefinition*, TaskDefinition);
 
-UCLASS()
+UDELEGATE(BlueprintAuthorityOnly)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTaskStepFinishDelegate, int, FinishStepIndex);
+
+UDELEGATE(BlueprintAuthorityOnly)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTaskFinishDelegate);
+
+UCLASS(BlueprintType)
 class GAMEJAM2024_API UPlayerTaskComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -39,6 +45,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float HeavyOffset;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnTaskAssignDelegate OnTaskAssign;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnTaskStepFinishDelegate OnTaskStepFinish;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnTaskFinishDelegate OnTaskFinish;
 
 	virtual void BeginPlay() override;
 
@@ -49,6 +63,8 @@ protected:
 	void Modification_OnFinish();
 
 public:	
+
+	class UTaskDefinition* GetCurrentTask() const { return CurrentTask; }
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 

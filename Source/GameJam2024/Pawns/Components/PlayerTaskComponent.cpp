@@ -37,6 +37,7 @@ void UPlayerTaskComponent::OnTaskFinished()
 		PlayerPawn->AddMoney(hpCurve->GetFloatValue(PlayerPawn->GetPlayerHealthComponent()->GetHealthPoints()));
 
 	Modification_OnFinish();
+	OnTaskFinish.Broadcast();
 
 	AssignTask(nullptr);
 
@@ -94,6 +95,9 @@ void UPlayerTaskComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UPlayerTaskComponent::AssignTask(UTaskDefinition* TaskDefinition)
 {
+	if (CurrentTask)
+		OnTaskFinish.Broadcast();
+
 	CurrentTask = TaskDefinition;
 	CurrentTaskStepIndex = 0;
 	TriggerToVisit = nullptr;
@@ -115,6 +119,7 @@ void UPlayerTaskComponent::AssignTask(UTaskDefinition* TaskDefinition)
 
 	TriggerToVisit = *taskTrigger;
 	TriggerToVisit->ActivateTrigger();
+	OnTaskAssign.Broadcast(CurrentTask);
 }
 
 void UPlayerTaskComponent::VisitedTrigger(ATaskTrigger* TaskTrigger)
@@ -125,6 +130,7 @@ void UPlayerTaskComponent::VisitedTrigger(ATaskTrigger* TaskTrigger)
 	if (TaskTrigger != TriggerToVisit) 
 		return;
 
+	OnTaskStepFinish.Broadcast(CurrentTaskStepIndex);
 	TriggerToVisit->DeactivateTrigger();
 	CurrentTaskStepIndex += 1;
 

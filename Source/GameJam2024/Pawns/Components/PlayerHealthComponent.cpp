@@ -1,6 +1,7 @@
 #include "PlayerHealthComponent.h"
 
 #include "../PlayerVehicle.h"
+#include "PlayerTaskComponent.h"
 
 UPlayerHealthComponent::UPlayerHealthComponent()
 {
@@ -32,7 +33,8 @@ void UPlayerHealthComponent::OnVehicleHit(UPrimitiveComponent* HitComponent, AAc
 
 void UPlayerHealthComponent::ApplyDamage(float DamageAmount)
 {
-	HealthPoints = FMath::Clamp(HealthPoints - DamageAmount, 0.0f, 100.0f);
+	if (!PlayerPawn->GetPlayerTaskComponent()->GetCurrentTask())
+		return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::SanitizeFloat(HealthPoints));
+	HealthPoints = FMath::Clamp(HealthPoints - DamageAmount, 0.0f, 100.0f);
 }

@@ -14,7 +14,7 @@ enum class ETaskMod : uint8
 	Heavy
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class GAMEJAM2024_API UTaskDefinition : public UDataAsset
 {
 	GENERATED_BODY()
