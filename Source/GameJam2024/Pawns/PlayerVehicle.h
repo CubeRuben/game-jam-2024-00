@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "WheeledVehiclePawn.h"
+#include "../Actors/WindAffected.h"
 #include "PlayerVehicle.generated.h"
 
 struct FPlayerInput
@@ -21,7 +22,7 @@ struct FPlayerInput
 };
 
 UCLASS()
-class GAMEJAM2024_API APlayerVehicle : public AWheeledVehiclePawn
+class GAMEJAM2024_API APlayerVehicle : public AWheeledVehiclePawn, public IWindAffected
 {
 	GENERATED_BODY()
 	
@@ -57,6 +58,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void ApplyWindForce_Implementation(FVector Force) override;
 
 #define INPUT_HANDLE(name) void Input##name##Pressed() { PlayerInput.b##name = true; }; void Input##name##Released() { PlayerInput.b##name = false; };
 

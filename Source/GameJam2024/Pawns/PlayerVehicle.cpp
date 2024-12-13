@@ -43,3 +43,8 @@ void APlayerVehicle::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	INPUT_BIND(Handbrake);
 }
+
+void APlayerVehicle::ApplyWindForce_Implementation(FVector Force)
+{
+	GetMesh()->AddForce(Force);
+}
