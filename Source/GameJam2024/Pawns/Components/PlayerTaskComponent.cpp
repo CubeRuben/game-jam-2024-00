@@ -1,8 +1,11 @@
 #include "PlayerTaskComponent.h"
 
+#include "PlayerHealthComponent.h"
 #include "../PlayerVehicle.h"
 #include "../../DataAssets/TaskDefinition.h"
 #include "../../Actors/TaskTrigger.h"
+
+#include <ChaosVehicleMovementComponent.h>
 
 UPlayerTaskComponent::UPlayerTaskComponent()
 {
@@ -11,6 +14,10 @@ UPlayerTaskComponent::UPlayerTaskComponent()
 	CurrentTask = nullptr;
 	CurrentTaskStepIndex = 0;
 	TriggerToVisit = nullptr;
+
+	ShakeChance = 0.015f;
+	ShakeStrength = 75000.0f;
+	HeavyOffset = -25.0f;
 }
 
 void UPlayerTaskComponent::BeginPlay()
@@ -25,12 +32,63 @@ void UPlayerTaskComponent::BeginPlay()
 
 void UPlayerTaskComponent::OnTaskFinished()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Task finished");
+	const UCurveFloat* hpCurve = CurrentTask->GetHPToMoney();
+	if (hpCurve)
+		PlayerPawn->AddMoney(hpCurve->GetFloatValue(PlayerPawn->GetPlayerHealthComponent()->GetHealthPoints()));
+
+	Modification_OnFinish();
+
+	AssignTask(nullptr);
+
+	PlayerPawn->GetPlayerHealthComponent()->ResetHealthPoints();
+}
+
+void UPlayerTaskComponent::Modification_OnStart()
+{
+	if (!CurrentTask)
+		return;
+
+	if (CurrentTask->GetTaskModification() == ETaskMod::Heavy)
+	{
+		PlayerPawn->GetVehicleMovementComponent()->CenterOfMassOverride.Z += HeavyOffset;
+	}
+}
+
+void UPlayerTaskComponent::Modification_OnTick(float DeltaTime)
+{
+	if (!CurrentTask || CurrentTaskStepIndex == 0)
+		return;
+
+	if (CurrentTask->GetTaskModification() == ETaskMod::RandomShaking) 
+	{
+		const float roll = FMath::RandRange(0.0f, 1.0f);
+		const bool doShake = ShakeChance >= roll;
+
+		if (!doShake)
+			return;
+
+		FVector shakeVector = PlayerPawn->GetActorRightVector();
+
+		if (FMath::RandBool())
+			shakeVector = -shakeVector;
+
+		PlayerPawn->GetMesh()->AddImpulse(shakeVector * ShakeStrength);
+	}
+}
+
+void UPlayerTaskComponent::Modification_OnFinish()
+{
+	if (CurrentTask->GetTaskModification() == ETaskMod::Heavy)
+	{
+		PlayerPawn->GetVehicleMovementComponent()->CenterOfMassOverride.Z -= HeavyOffset;
+	}
 }
 
 void UPlayerTaskComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	Modification_OnTick(DeltaTime);
 
 }
 
@@ -69,6 +127,9 @@ void UPlayerTaskComponent::VisitedTrigger(ATaskTrigger* TaskTrigger)
 
 	TriggerToVisit->DeactivateTrigger();
 	CurrentTaskStepIndex += 1;
+
+	if (CurrentTaskStepIndex == 1)
+		Modification_OnStart();
 
 	if (!CurrentTask->GetTriggersToVisit().IsValidIndex(CurrentTaskStepIndex))
 	{

@@ -44,6 +44,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UPlayerHealthComponent* PlayerHealthComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Money;
+
 	FPlayerInput PlayerInput;
 
 public:
@@ -54,6 +57,11 @@ public:
 
 	class UPlayerMovementComponent* GetPlayerMovementComponent() const { return PlayerMovementComponent; }
 	class UPlayerTaskComponent* GetPlayerTaskComponent() const { return PlayerTaskComponent; }
+	class UPlayerHealthComponent* GetPlayerHealthComponent() const { return PlayerHealthComponent; }
+
+	float GetMoney() const { return Money; }
+	void SetMoney(float NewMoney) { Money = NewMoney; }
+	void AddMoney(float AddMoney) { Money = AddMoney + Money; }
 
 	virtual void Tick(float DeltaTime) override;
 

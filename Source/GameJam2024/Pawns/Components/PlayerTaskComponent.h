@@ -30,10 +30,23 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class ATaskTrigger* TriggerToVisit;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float ShakeChance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float ShakeStrength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float HeavyOffset;
+
 
 	virtual void BeginPlay() override;
 
 	void OnTaskFinished();
+
+	void Modification_OnStart();
+	void Modification_OnTick(float DeltaTime);
+	void Modification_OnFinish();
 
 public:	
 

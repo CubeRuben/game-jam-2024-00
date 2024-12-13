@@ -2,4 +2,5 @@
 
 UTaskDefinition::UTaskDefinition()
 {
+	Modification = ETaskMod::None;
 }

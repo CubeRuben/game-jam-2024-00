@@ -30,6 +30,9 @@ protected:
 
 public:	
 
+	float GetHealthPoints() const { return HealthPoints; }
+	void ResetHealthPoints() { HealthPoints = 100.0f; }
+
 	void ApplyDamage(float DamageAmount);
 
 };

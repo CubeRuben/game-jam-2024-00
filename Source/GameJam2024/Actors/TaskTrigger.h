@@ -18,7 +18,7 @@ protected:
 	static TMap<FString, ATaskTrigger*> TaskTriggers;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class UBoxComponent* TriggerBoxComponent;
+	class UStaticMeshComponent* MarkerMeshComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UWidgetComponent* WidgetComponent;

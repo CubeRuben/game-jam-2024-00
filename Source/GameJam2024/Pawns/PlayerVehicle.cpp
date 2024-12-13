@@ -16,6 +16,8 @@ APlayerVehicle::APlayerVehicle()
 	PlayerHealthComponent = CreateDefaultSubobject<UPlayerHealthComponent>(TEXT("Player Health Component"));
 
 	GetMesh()->BodyInstance.bNotifyRigidBodyCollision = true;
+
+	Money = 0.0f;
 }
 
 void APlayerVehicle::Tick(float DeltaTime)

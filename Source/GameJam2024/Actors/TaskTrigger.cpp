@@ -12,14 +12,13 @@ ATaskTrigger::ATaskTrigger()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	TriggerBoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Box"));
-	TriggerBoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	TriggerBoxComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Vehicle, ECollisionResponse::ECR_Overlap);
-	TriggerBoxComponent->SetGenerateOverlapEvents(true);
-	RootComponent = TriggerBoxComponent;
+	MarkerMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Marker Mesh Component"));
+	MarkerMeshComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	MarkerMeshComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Vehicle, ECollisionResponse::ECR_Overlap);
+	MarkerMeshComponent->SetGenerateOverlapEvents(true);
+	RootComponent = MarkerMeshComponent;
 
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget Component"));
-	WidgetComponent->SetHiddenInGame(true);
 	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	WidgetComponent->SetDrawSize(FVector2D(50.0f, 50.0f));
 	WidgetComponent->SetupAttachment(RootComponent);
@@ -28,13 +27,15 @@ ATaskTrigger::ATaskTrigger()
 
 	if (TaskMarkerWidgetClassAsset.Class)
 		WidgetComponent->SetWidgetClass(TaskMarkerWidgetClassAsset.Class);
+
+	DeactivateTrigger();
 }
 
 void ATaskTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	TriggerBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ATaskTrigger::OnBeginOverlap);
+	MarkerMeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ATaskTrigger::OnBeginOverlap);
 
 	TaskTriggers.Add(TriggerName, this);
 }
@@ -58,11 +59,13 @@ void ATaskTrigger::Tick(float DeltaTime)
 void ATaskTrigger::ActivateTrigger()
 {
 	WidgetComponent->SetHiddenInGame(false);
+	MarkerMeshComponent->SetHiddenInGame(false);
 }
 
 void ATaskTrigger::DeactivateTrigger()
 {
 	WidgetComponent->SetHiddenInGame(true);
+	MarkerMeshComponent->SetHiddenInGame(true);
 }
 
 
