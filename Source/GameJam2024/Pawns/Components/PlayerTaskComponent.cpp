@@ -138,8 +138,11 @@ void UPlayerTaskComponent::VisitedTrigger(ATaskTrigger* TaskTrigger)
 	TriggerToVisit->DeactivateTrigger();
 	CurrentTaskStepIndex += 1;
 
-	if (CurrentTaskStepIndex == 1)
+	if (CurrentTaskStepIndex == 1) 
+	{
+		OnTaskTargoTaken.Broadcast();
 		Modification_OnStart();
+	}
 
 	if (!CurrentTask->GetTriggersToVisit().IsValidIndex(CurrentTaskStepIndex))
 	{

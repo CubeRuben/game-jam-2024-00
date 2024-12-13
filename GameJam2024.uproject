@@ -34,5 +34,8 @@
 			"Name": "VirtualHeightfieldMesh",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }

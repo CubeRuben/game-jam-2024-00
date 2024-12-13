@@ -14,6 +14,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTaskStepFinishDelegate, int, Fini
 UDELEGATE(BlueprintAuthorityOnly)
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTaskFinishDelegate);
 
+UDELEGATE(BlueprintAuthorityOnly)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTaskCargoTakenDelegate);
+
+
 UCLASS(BlueprintType)
 class GAMEJAM2024_API UPlayerTaskComponent : public UActorComponent
 {
@@ -50,6 +54,9 @@ protected:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnTaskStepFinishDelegate OnTaskStepFinish;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnTaskCargoTakenDelegate OnTaskTargoTaken;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnTaskFinishDelegate OnTaskFinish;
