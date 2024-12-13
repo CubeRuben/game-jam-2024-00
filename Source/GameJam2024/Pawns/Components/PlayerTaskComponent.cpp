@@ -85,6 +85,11 @@ void UPlayerTaskComponent::Modification_OnFinish()
 	}
 }
 
+bool UPlayerTaskComponent::CanDamage()
+{
+	return CurrentTask && CurrentTaskStepIndex != 0;
+}
+
 void UPlayerTaskComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

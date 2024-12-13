@@ -64,6 +64,8 @@ protected:
 
 public:	
 
+	bool CanDamage();
+
 	class UTaskDefinition* GetCurrentTask() const { return CurrentTask; }
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

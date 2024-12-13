@@ -33,7 +33,7 @@ void UPlayerHealthComponent::OnVehicleHit(UPrimitiveComponent* HitComponent, AAc
 
 void UPlayerHealthComponent::ApplyDamage(float DamageAmount)
 {
-	if (!PlayerPawn->GetPlayerTaskComponent()->GetCurrentTask())
+	if (!PlayerPawn->GetPlayerTaskComponent()->CanDamage())
 		return;
 
 	HealthPoints = FMath::Clamp(HealthPoints - DamageAmount, 0.0f, 100.0f);
