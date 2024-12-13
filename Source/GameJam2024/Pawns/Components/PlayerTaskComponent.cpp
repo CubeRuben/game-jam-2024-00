@@ -95,8 +95,7 @@ void UPlayerTaskComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UPlayerTaskComponent::AssignTask(UTaskDefinition* TaskDefinition)
 {
-	if (CurrentTask)
-		OnTaskFinish.Broadcast();
+	OnTaskFinish.Broadcast();
 
 	CurrentTask = TaskDefinition;
 	CurrentTaskStepIndex = 0;
