@@ -28,7 +28,8 @@ ATaskTrigger::ATaskTrigger()
 	if (TaskMarkerWidgetClassAsset.Class)
 		WidgetComponent->SetWidgetClass(TaskMarkerWidgetClassAsset.Class);
 
-	DeactivateTrigger();
+	WidgetComponent->SetHiddenInGame(true);
+	MarkerMeshComponent->SetHiddenInGame(true);
 }
 
 void ATaskTrigger::BeginPlay()
@@ -66,6 +67,8 @@ void ATaskTrigger::DeactivateTrigger()
 {
 	WidgetComponent->SetHiddenInGame(true);
 	MarkerMeshComponent->SetHiddenInGame(true);
+
+	OnTriggerFinish();
 }
 
 
